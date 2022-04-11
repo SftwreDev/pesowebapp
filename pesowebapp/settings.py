@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'authentication',
     'homepage',
     'config',
+    'announcement',
 
     'crispy_forms'
 ]
