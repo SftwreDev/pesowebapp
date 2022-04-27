@@ -32,7 +32,10 @@ def jobpost_detail(request, pk):
     template_name = "jobpost/jobpost_detail.html"
     jobs = JobPost.objects.get(id=pk)
     applicant_forms = ApplyJobForm(request.POST or None, request.FILES or None)
-    status = ApplicationForm.objects.get(jobs_id=jobs.id)
+    try:
+        status = ApplicationForm.objects.get(jobs_id=jobs.id)
+    except Exception as e:
+        print(e)
 
     if applicant_forms.is_valid():
         applicant_forms.save(commit=False)
