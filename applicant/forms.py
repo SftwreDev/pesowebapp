@@ -11,7 +11,7 @@ class ApplyJobForm(forms.ModelForm):
 class ApplicantRequirementsForm(forms.ModelForm):
     class Meta:
         model = ApplicantRequirement
-        fields = [ 'file']
+        fields = ['file']
         widgets = {
             'file': ClearableFileInput(attrs={'multiple': True})
         }

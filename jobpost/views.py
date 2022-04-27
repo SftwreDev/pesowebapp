@@ -35,19 +35,26 @@ def jobpost_detail(request, pk):
     try:
         status = ApplicationForm.objects.get(jobs_id=jobs.id)
     except Exception as e:
-        print(e)
+        status = ""
+
+    check_file = ApplicantRequirement.objects.filter(jobs_id=pk).count()
+
+    if check_file == 0:
+        available_files = False
+    else:
+        available_files = True
 
     if applicant_forms.is_valid():
         applicant_forms.save(commit=False)
         applicant_forms.instance.user_id = request.user.id
         applicant_forms.instance.jobs_id = pk
         applicant_forms.already_applied = True
+        applicant_forms.approved = "Pending"
         applicant_forms.save()
         return redirect('jobpost_list')
     
     try:
         already_apply = ApplicationForm.objects.get(jobs_id=pk, user_id=request.user.id)
-        
         if already_apply is not None:
             applied_already = True
     except Exception as e:
@@ -57,7 +64,8 @@ def jobpost_detail(request, pk):
         "jobs" : jobs,
         "applicant_forms" : applicant_forms,
         "applied_already" : applied_already,
-        "status" : status
+        "status" : status,
+        "available_files" : available_files
     }
     return render(request, template_name, context)
 
@@ -88,10 +96,11 @@ def applicants(request):
     template_name = "jobpost/applicants.html"
     obj = JobPost.objects.select_related().filter(posted_by=request.user.id)
 
-    for jobs in obj:
-        applicants = ApplicationForm.objects.select_related().filter(jobs_id=jobs.id)
-        print(applicants[0].user.last_name)
-
+    try:
+        for jobs in obj:
+            applicants = ApplicationForm.objects.select_related().filter(jobs_id=jobs.id)
+    except Exception as e:
+        applicants = False
 
     context = {
         "applicants" : applicants

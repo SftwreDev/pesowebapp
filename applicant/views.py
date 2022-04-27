@@ -26,19 +26,20 @@ def proceed_next_step(request, pk):
                 ApplicantRequirement.objects.create(
                     file=file,
                     user_id=request.user.id,
-                    requirements_type="requirements"
+                    requirements_type="requirements",
+                    jobs_id=jobs.id
                 )
             return redirect("proceed_next_step" , pk=pk)
     else:
         applicant_forms = ApplicantRequirementsForm(request.POST or None, request.FILES or None)
     
     requirements = ApplicantRequirement.objects.filter(user_id=request.user.id)
-    try:
-        check_file = ApplicantRequirement.objects.filter(user_id=request.user.id)
-        available_files = True
-    except Exception as e:
+    check_file = ApplicantRequirement.objects.filter(jobs_id=pk).count()
+
+    if check_file == 0:
         available_files = False
-        
+    else:
+        available_files = True
     context = {
         "jobs" : jobs,
         "applicant_forms" : applicant_forms,
@@ -49,7 +50,3 @@ def proceed_next_step(request, pk):
 
     return render(request, template_name, context)
 
-def handle_uploaded_file(f):
-    with open(f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)

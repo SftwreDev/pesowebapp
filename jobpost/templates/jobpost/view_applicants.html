@@ -68,13 +68,10 @@
           <button type="button" class="btn btn-success btn-sm">
             Application approved
           </button>
-          {% elif applicants.approved == "Disapproved" %}
-          <button type="button" class="btn btn-danger btn-sm">
-            Application not approved
-          </button>
-          {% endif %}
           <div class="card">
             <div class="card-body">
+                <h6>List of Applicant's Requirements</h6>
+                <hr>
                   {% if available_files %}
                       <ul class="list-group list-group-flush list-group-numbered" style="font-size: 10px;">
                           {% for file in requirements %}
@@ -91,6 +88,12 @@
                   {% endif %}
             </div>
         </div>
+          {% elif applicants.approved == "Disapproved" %}
+          <button type="button" class="btn btn-danger btn-sm">
+            Application not approved
+          </button>
+          {% endif %}
+          
         </div>
       </div>
     </div>

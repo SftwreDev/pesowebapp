@@ -15,9 +15,10 @@ class ApplicationForm(BaseModel):
     resumes = models.FileField(upload_to="resumes/")
     additional_info = models.TextField(max_length=500)
     already_applied = models.BooleanField(default=True)
-    approved = models.CharField(max_length=255, choices=status)
+    approved = models.CharField(max_length=255, choices=status, default="Pending")
 
 class ApplicantRequirement(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    jobs = models.ForeignKey(JobPost, on_delete=models.CASCADE)
     requirements_type = models.CharField(max_length=255)
     file = models.FileField(upload_to="requirements/")
