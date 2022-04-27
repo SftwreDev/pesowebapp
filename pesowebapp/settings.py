@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ckr+8ahy_^n^845h#1lj1#jcteec#=0rj#j5iccu+a)%n&mfbd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["pesowebapp-dqrst.ondigitalocean.app"]
 
 
 # Application definition
