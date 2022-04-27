@@ -1,0 +1,142 @@
+{% extends 'base.html'%} {% load crispy_forms_tags%} {% load static %}{% block body %}
+<div class="row mt-5">
+  <div class="col-sm-8 col-md-8 col-lg-8">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <img src="{{jobs.posted_by.profile_picture.url}}" class="rounded-circle" alt="profile_picture" style="height: 80px; width: 100px;">
+        <h5 class="card-title">{{jobs.title}}</h5>
+        <small class="card-subtitle mb-2 text-muted"
+          >Posted by: {{jobs.posted_by.user_employer.company_name}} <br />
+          Date posted: {{jobs.created_at}}</small
+        >
+        <hr />
+        <div class="card-content">{{jobs.description|linebreaks}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          {% if status.approved == "Approved" %}
+          <p>
+              Upload your requirements here. <br>
+              <b>Note:</b> You can select and upload multiple files
+          </p>
+          <div class="card">
+              <div class="card-body">
+                    {% if available_files %}
+                        <ul class="list-group list-group-flush list-group-numbered" style="font-size: 10px;">
+                            {% for file in requirements %}
+                            <li class="list-group-item">
+                                <a href="{{file.file.url}}" class="text-decoration-none">{{file.file.name}}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="text-center">
+                            <img src="{% static 'images/file.png' %}" class="rounded" alt="..." width="50" height="50">
+                            <p>Requirements not found</p>
+                        </div>
+                    {% endif %}
+              </div>
+          </div>
+          <form method="POST"  enctype="multipart/form-data">
+              {% csrf_token %}
+              {{applicant_forms|crispy}}
+              <button
+                type="submit"
+                class="btn btn-primary btn-sm mt-2"
+            >
+                Upload requirements
+            </button>
+          </form>
+          {% else %}
+          <button
+            type="button"
+            class="btn btn-primary btn-sm disabled"
+          >
+            Applied already
+          </button>
+          <button
+            type="button"
+            class="btn btn-success btn-sm"
+            data-bs-toggle="modal" data-bs-target="#statusModal"
+          >
+            Check Application  Status
+          </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Application Form</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form method="POST"  enctype="multipart/form-data">
+        <div class="modal-body">{% csrf_token %} {{applicant_forms|crispy}}</div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Application Status</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% if status.approved == "Pending" %}
+        Under Review
+        <div class="progress mt-2">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+        </div>
+        {% elif status.approved == "Approved" %}
+        Application Approved
+        <div class="progress mt-2">
+          <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <a href="{% url 'proceed_next_step' jobs.id %}" class="btn btn-primary btn-sm mt-3">Proceed to next step</a>
+        {% elif status.approved == "Disapproved" %}
+        Application not approved
+        <div class="progress mt-2">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        <a href="{% url 'jobpost_list' %}" class="btn btn-primary btn-sm mt-3">Search again</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

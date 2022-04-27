@@ -8,4 +8,4 @@ class BaseModel(models.Model):
         ("Inactive", "Inactive"),
     )
     created_at = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=255, choices=status, name="Status")
+    status = models.CharField(max_length=255, choices=status, name="status")

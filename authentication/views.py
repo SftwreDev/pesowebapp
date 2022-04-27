@@ -77,7 +77,18 @@ class EmployerSignUpView(CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.role = 'employer'
+        user.save()
+        print("USER ID", user.id)
+        employer = Employer.objects.create(
+            user_id=user.id, 
+            company_name=form.cleaned_data['company_name'], 
+            company_address=form.cleaned_data['company_address'], 
+            business_nature=form.cleaned_data['business_nature'],
+            status = "Active"
+            )
+        
         return redirect('/')
 
 
@@ -91,5 +102,37 @@ class ApplicantSignUpView(CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.role = 'applicant'
+        user.save()
+        print("USER ID", user.id)
+        employer = Applicant.objects.create(
+            user_id=user.id, 
+            address=form.cleaned_data['address'], 
+            working_exp=form.cleaned_data['working_exp'], 
+            prev_employer=form.cleaned_data['prev_employer'],
+            birthdate=form.cleaned_data['birthdate'],
+            age=form.cleaned_data['age'],
+            status = "Active"
+            )
         return redirect('/')
+
+
+def employer_profile(request):
+    template_name = "employer_profile.html"
+    profile = Employer.objects.get(user__id = request.user.id)
+
+    context = {
+        "profile" : profile
+    }
+    return render(request, template_name,context)
+
+def applicant_profile(request):
+    template_name = "applicant_profile.html"
+    profile = Applicant.objects.get(user__id = request.user.id)
+
+    context = {
+        "profile" : profile
+    }
+    return render(request, template_name,context)
+

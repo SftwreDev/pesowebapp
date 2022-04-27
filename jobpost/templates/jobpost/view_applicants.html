@@ -1,0 +1,173 @@
+{% extends 'base.html'%} {% load crispy_forms_tags%} {% load static %} {% block body %}
+<div class="row mt-5">
+  <div class="col-sm-8 col-md-8 col-lg-8">
+    <div class="card shadow-sm p-5">
+        <div class="text-center">
+            <img src="{{applicants.user.profile_picture.url}}" class="rounded-circle border border-2" alt="..." width="200" height="150">
+          </div>
+        <table class="table table-borderless" style="font-size: 14px;">
+            <tbody>
+              <tr>
+                <th scope="row">Full Name</th>
+                <td>{{applicants.user.last_name}}, {{applicants.user.first_name}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Address</th>
+                <td>{{user.address}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Email Address</th>
+                <td>{{applicants.user.email}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Have woking experience?</th>
+                <td>{{user.working_exp}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Previous employer (if have woking experience)</th>
+                <td>{{user.prev_employer}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Birthdate</th>
+                <td>{{user.birthdate}}</td>
+              </tr>
+              <tr>
+                <th scope="row">Age</th>
+                <td>{{user.age}} yrs. old</td>
+              </tr>
+              <tr>
+                <th scope="row">Resume</th>
+                <td>
+                    <a href="{{applicants.resumes.url}}" class="text-decoration-none">
+                        View {{applicants.user.last_name}}, {{applicants.user.first_name}}'s Resume'
+                    </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+  </div>
+  <div class="col-sm-4 col-md-4 col-lg-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <div class="d-grid gap-2">
+          {% if applicants.approved == "Pending" %}
+          <a
+          href="{% url  'approved_applicants' applicants.id %}"
+            class="btn btn-primary btn-sm"
+          >
+            Approved application
+        </a>
+          <a
+            href="{% url  'disapproved_applicants' applicants.id %}"
+            class="btn btn-danger btn-sm"
+          >
+            Disapproved application
+          </a>
+          {% elif applicants.approved == "Approved" %}
+          <button type="button" class="btn btn-success btn-sm">
+            Application approved
+          </button>
+          {% elif applicants.approved == "Disapproved" %}
+          <button type="button" class="btn btn-danger btn-sm">
+            Application not approved
+          </button>
+          {% endif %}
+          <div class="card">
+            <div class="card-body">
+                  {% if available_files %}
+                      <ul class="list-group list-group-flush list-group-numbered" style="font-size: 10px;">
+                          {% for file in requirements %}
+                          <li class="list-group-item">
+                              <a href="{{file.file.url}}" class="text-decoration-none">{{file.file.name}}</a>
+                          </li>
+                          {% endfor %}
+                      </ul>
+                  {% else %}
+                      <div class="text-center">
+                          <img src="{% static 'images/file.png' %}" class="rounded" alt="..." width="50" height="50">
+                          <p>Requirements not found</p>
+                      </div>
+                  {% endif %}
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Application Form</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          {% csrf_token %} {{applicant_forms|crispy}}
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="statusModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Application Status</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Under Review
+        <div class="progress mt-2">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            aria-valuenow="50"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 50%"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

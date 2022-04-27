@@ -4,6 +4,7 @@
     <div class="card-body">
         <div class="row">
           <div class="col-8">
+            {% if user.role == 'admin' or user.role == 'employer' %}
             <a
               href="{% url 'ann-add' %}"
               class="btn btn-primary w-28"
@@ -24,6 +25,7 @@
                 />
               </svg>
             </a>
+            {% endif %}
         </div>
         {% for list in announcement %}
         <div class="card shadow mt-5 mb-2">

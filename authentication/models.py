@@ -16,28 +16,28 @@ class User(AbstractUser):
     )
     role = models.CharField(max_length=255, choices=role)
     is_verified = models.BooleanField(default=False)
+    profile_picture = models.ImageField(upload_to="profile_picture/")
 
 
 class Employer(BaseModel):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    company_name = models.CharField(max_length=255, name="Company Name")
-    company_address = models.CharField(max_length=255, name="Company Address")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="user_employer")
+    company_name = models.CharField(max_length=255)
+    company_address = models.CharField(max_length=255)
     business_nature = models.CharField(
-        max_length=255, name="Nature of Business", help_text="Ex. FastFood, IT, BPO")
+        max_length=255, help_text="Ex. FastFood, IT, BPO")
 
     def __str__(self):
         return self.company_name
-
-
+        
 class Applicant(BaseModel):
     choices = (
         ("Yes", "Yes"),
         ("No", "No"),
     )
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    address = models.CharField(max_length=255, name="Address")
-    working_exp = models.CharField(max_length=255, choices=choices, name="Have working experience?")
-    prev_employer = models.CharField(max_length=255, blank=True, null=True, name="Previous employer/s (*if you have working experience)")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="user_applicant")
+    address = models.CharField(max_length=255)
+    working_exp = models.CharField(max_length=255, choices=choices,)
+    prev_employer = models.CharField(max_length=255, blank=True, null=True)
     birthdate = models.DateField(auto_now_add=False)
     age = models.IntegerField()
 

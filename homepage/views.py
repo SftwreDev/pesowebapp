@@ -7,3 +7,6 @@ def homepage(request):
         "active" : "active"
     }
     return render(request, template_name, context)
+
+
+
