@@ -33,10 +33,10 @@ def jobpost_detail(request, pk):
     jobs = JobPost.objects.get(id=pk)
     applicant_forms = ApplyJobForm(request.POST or None, request.FILES or None)
     try:
-        status = ApplicationForm.objects.get(jobs_id=jobs.id)
+        status = ApplicationForm.objects.get(jobs_id=jobs.id, user_id=request.user.id)
     except Exception as e:
         status = ""
-
+        print(e)
     check_file = ApplicantRequirement.objects.filter(jobs_id=pk).count()
 
     if check_file == 0:

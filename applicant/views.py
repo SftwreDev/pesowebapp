@@ -17,7 +17,7 @@ def proceed_next_step(request, pk):
     template_name = "applicants/applied_job_status.html"
     jobs = JobPost.objects.get(id=pk)
     
-    status = ApplicationForm.objects.get(jobs_id=jobs.id)
+    status = ApplicationForm.objects.get(jobs_id=jobs.id, user_id=request.user.id)
     if request.method == "POST":
         applicant_forms = ApplicantRequirementsForm(request.POST or None, request.FILES or None)
         files = request.FILES.getlist("file")
