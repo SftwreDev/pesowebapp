@@ -87,7 +87,7 @@ class EmployerSignUpView(CreateView):
         print("USER ID", user.id)
         full_name = user.first_name
         email = encrypt_email(user.email)
-        link = f"http://localhost:8000/verify-email/{email}"
+        link = f"https://pesowebapp-dqrst.ondigitalocean.app/{email}"
         send_email(user.email, full_name, link)
         employer = Employer.objects.create(
             user_id=user.id, 
@@ -116,7 +116,7 @@ class ApplicantSignUpView(CreateView):
         print("USER ID", user.id)
         full_name = user.first_name
         email = encrypt_email(user.email)
-        link = f"http://localhost:8000/verify-email/{email}"
+        link = f"https://pesowebapp-dqrst.ondigitalocean.app/{email}"
         send_email(user.email, full_name, link)
         employer = Applicant.objects.create(
             user_id=user.id, 
