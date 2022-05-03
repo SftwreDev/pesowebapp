@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+<div class="container" style="height: 30vh">
+    <div class="row">
+        <div class="col-sm col-md-2 col-lg-2"></div>
+        <div class="col-sm col-md-8 col-lg-8">
+            <div class="card shadow-sm mt-5">
+                <div class="card-body text-center">
+                    <div class="card-title">
+                        <img src="{% static 'images/email_sent.png' %}" class="" alt="..." width="100" height="100">
+                    </div>
+                    <div class="card-content">
+                        <h4>
+                            Email verification sent!<br>Please check your email inbox to verify
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm col-md-2 col-lg-2"></div>
+    </div>
+</div>
+{% endblock %}

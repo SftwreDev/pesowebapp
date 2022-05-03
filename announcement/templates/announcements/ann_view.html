@@ -8,23 +8,30 @@
     Back to announcement list
   </a>
   <div class="row">
-    <div class="col-sm col-md-6 col-lg-6">
+    <div class="col-sm col-md-8 col-lg-8">
       <div class="card shadow rounded p-3 mt-3">
-        {% for detail in announcement %}
         <div class="card-title">
-            Announcement: {{detail.announcements}}
+            <h3>{{announcement.title}}</h3>
+            <small class='text-muted'>
+              Posted by: {{announcement.posted_by}} <br> Date posted: {{announcement.created_at}} 
+            </small>
         </div>
-        <div class="card shadow mt-2 mb-2">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Title: {{detail.title}}</li>
-            <li class="list-group-item">Content:  {{detail.content}}</li>
-            <li class="list-group-item">Posted by:  {{detail.posted_by}}</li>
-          </ul>
+        <hr>
+        <div class="card-content mt-2 mb-2">
+          <p>
+            {{announcement.content}}
+          </p>
         </div>
-        {% endfor %}
       </div>
     </div>
-    <div class="col-sm col-md-6 col-lg-6"></div>
+    <div class="col-sm col-md-4 col-lg-4">
+      {% if announcement.posted_by.email == user.email %}
+      <div class="list-group mt-3">
+        <a href="{% url 'ann-update' announcement.id %}" class="list-group-item list-group-item-action">Update this announcement</a>
+        <a href="{% url 'ann-delete' announcement.id %}" class="list-group-item list-group-item-action">Delete this announcement</a>
+      </div>
+      {% endif %}
+    </div>
   </div>
 </div>
 {% endblock %}

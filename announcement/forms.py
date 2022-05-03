@@ -2,6 +2,7 @@ from django import forms
 from .models import *
 
 class AnnouncementForms(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea)
     class Meta: 
         model = Announcement
-        fields = '__all__'
+        fields = ['title' , 'content']

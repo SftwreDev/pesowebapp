@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% load static %} {% block body %}
+<div class="row">
+  <div class="col-sm col-md-6 col-lg-6">
+    <p style="margin-top: 100px; font-size: 45px">
+      Welcome to <br />
+      PESO-Malvar
+    </p>
+    <p>You can apply for work or post your jobs in here</p>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+      {% if user.role == 'employer' %} 
+        <a href="{% url 'jobpost_list' %}" class="btn btn-primary me-md-2 d-grid gap-2 col-6">Post Job</a>
+      {% elif user.role == 'applicant'%} 
+        <a href="{% url 'jobpost_list' %}" class="btn btn-primary me-md-2 d-grid gap-2 col-6">Find work</a>
+      {% else %}
+        <a href="#" class="btn btn-primary me-md-2">Find work</a>
+        <a href="#" class="btn btn-outline-success">Post jobs</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-sm col-md-6 col-lg-6">
+    <div class="image mt-5">
+      <img
+        src="{% static 'images/interview.png' %}"
+        class="img-fluid"
+        alt="..."
+      />
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,31 +1,361 @@
 {% extends "base.html" %} {% load static %} {% block body %}
-<div class="row">
-  <div class="col-sm col-md-6 col-lg-6">
-    <p style="margin-top: 100px; font-size: 45px">
-      Welcome to <br />
-      PESO-Malvar
-    </p>
-    <p>You can apply for work or post your jobs in here</p>
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center"
+        data-aos="fade-up"
+      >
+        <div>
+          <h1>Hire talents or apply jobs here in PESO-Malvar</h1>
+          <h2>
+            You can apply for work or post your jobs in here
+          </h2>
+          {% if user.role == 'employer' %} 
+            <a href="{% url 'jobpost_list' %}" class="btn-get-started scrollto text-decoration-none">Post Job</a>
+          {% elif user.role == 'applicant'%} 
+            <a href="{% url 'jobpost_list' %}" class="btn-get-started scrollto text-decoration-none">Find work</a>
+          {% else %}
+            <a href="{% url 'login' %}" class="btn-get-started scrollto text-decoration-none">Get Started</a>
+          {% endif %}
+          
+        </div>
+      </div>
+      <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
+        <img
+          src="{% static 'images/interview.png' %}"
+          class="img-fluid"
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Hero -->
 
-    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-      {% if user.role == 'employer' %} 
-        <a href="{% url 'jobpost_list' %}" class="btn btn-primary me-md-2 d-grid gap-2 col-6">Post Job</a>
-      {% elif user.role == 'applicant'%} 
-        <a href="{% url 'jobpost_list' %}" class="btn btn-primary me-md-2 d-grid gap-2 col-6">Find work</a>
-      {% else %}
-        <a href="#" class="btn btn-primary me-md-2">Find work</a>
-        <a href="#" class="btn btn-outline-success">Post jobs</a>
-      {% endif %}
+<main id="main">
+  <!-- ======= About Section ======= -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 text-center" data-aos="zoom-in">
+          <img
+            src="{% static 'images/peso_logo.png' %}"
+            class="img-fluid"
+            alt=""
+          />
+        </div>
+        <div
+          class="col-lg-6 d-flex flex-column justify-contents-center"
+          data-aos="fade-left"
+        >
+          <div class="content pt-4 pt-lg-0 mt-5">
+            <h3>LGU-MALVAR</h3>
+            <p class="fst-italic">
+              Official PESO-Malvar Job Posting Site
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="col-sm col-md-6 col-lg-6">
-    <div class="image mt-5">
-      <img
-        src="{% static 'images/interview.png' %}"
-        class="img-fluid"
-        alt="..."
-      />
+  </section>
+  <!-- End About Section -->
+
+  <!-- ======= Features Section ======= -->
+  <section id="features" class="features">
+    <div class="container" id="howToHire" >
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" onclick="changeCard()">How to <br> Hire employees </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="changeCard()">How to <br> Apply jobs </a>
+        </li>
+      </ul>
+      <div class="row">
+        <div class="col-lg-6 mt-2 mb-tg-0 order-2 order-lg-1">
+          <ul class="nav nav-tabs flex-column">
+            <li class="nav-item" data-aos="fade-up">
+              <a
+                class="nav-link active show"
+                data-bs-toggle="tab"
+                href="#tab-1"
+              >
+                <h4>Post Jobs</h4>
+                <p>
+                  Post your jobs here
+                </p>
+              </a>
+            </li>
+            <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="100">
+              <a class="nav-link" data-bs-toggle="tab" href="#tab-2">
+                <h4>Check applicants</h4>
+                <p>Check applicants for approval and disapproval of their application</p>
+              </a>
+            </li>
+            <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="200">
+              <a class="nav-link" data-bs-toggle="tab" href="#tab-3">
+                <h4>Interview applicants</h4>
+                <p>Interview approved applicants</p>
+              </a>
+            </li>
+            <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="300">
+              <a class="nav-link" data-bs-toggle="tab" href="#tab-4">
+                <h4>Hired applicants</h4>
+                <p>
+                  Hire applicants and wait ofr their requirements
+                </p>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in">
+          <div class="tab-content">
+            <div class="tab-pane active show" id="tab-1">
+              <figure>
+                <img
+                  src="{% static 'images/post.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+            <div class="tab-pane" id="tab-2">
+              <figure>
+                <img
+                src="{% static 'images/resume.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+            <div class="tab-pane" id="tab-3">
+              <figure>
+                <img
+                  src="{% static 'images/interview_applicants.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+            <div class="tab-pane" id="tab-4">
+              <figure>
+                <img
+                  src="{% static 'images/hire.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
+    <div class="container" style="display: none;" id="howToApply" >
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" onclick="changeCard()">How to <br> Hire employees </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" onclick="changeCard()">How to <br> Apply jobs </a>
+        </li>
+      </ul>
+      <div class="row">
+        <div class="col-lg-6 mt-2 mb-tg-0 order-2 order-lg-1">
+          <ul class="nav nav-tabs flex-column">
+            <li class="nav-item" data-aos="fade-up">
+              <a
+                class="nav-link active show"
+                data-bs-toggle="tab"
+                href="#post-1"
+              >
+                <h4>Browse job post</h4>
+                <p>
+                  Browse and check posted jobs
+                </p>
+              </a>
+            </li>
+            <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="100">
+              <a class="nav-link" data-bs-toggle="tab" href="#post-2">
+                <h4>Submit resume</h4>
+                <p>Check job detail and send resume to the employer</p>
+              </a>
+            </li>
+            <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="200">
+              <a class="nav-link" data-bs-toggle="tab" href="#post-3">
+                <h4>Interview with employer</h4>
+                <p>Get interview from the employers</p>
+              </a>
+            </li>
+            <li class="nav-item mt-2" data-aos="fade-up" data-aos-delay="300">
+              <a class="nav-link" data-bs-toggle="tab" href="#post-4">
+                <h4>Hired</h4>
+                <p>
+                  Get hired and submit all the requirements
+                </p>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2" data-aos="zoom-in">
+          <div class="tab-content">
+            <div class="tab-pane active show" id="post-1">
+              <figure>
+                <img
+                  src="{% static 'images/browse.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+            <div class="tab-pane" id="post-2">
+              <figure>
+                <img
+                src="{% static 'images/cv.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+            <div class="tab-pane" id="post-3">
+              <figure>
+                <img
+                  src="{% static 'images/interview_applicants.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+            <div class="tab-pane" id="post-4">
+              <figure>
+                <img
+                  src="{% static 'images/requirements.png' %}"
+                  alt=""
+                  class="img-fluid"
+                />
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Features Section -->
+
+  <!-- ======= Contact Section ======= -->
+  <section id="contact" class="contact section-bg">
+    <div class="container">
+      <div class="section-title" data-aos="fade-up">
+        <h2>Contact Us</h2>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5 d-flex align-items-stretch" data-aos="fade-right">
+          <div class="info">
+            <div class="address">
+              <i class="bi bi-geo-alt"></i>
+              <h4>Location:</h4>
+              <p>Malvar Municipal Hall, San Pioquinto, Malvar, Batangas</p>
+            </div>
+
+            <div class="phone">
+              <i class="bi bi-phone"></i>
+              <h4>Call:</h4>
+              <p>(043) 406 0330</p>
+            </div>
+
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3870.392730144466!2d121.15301581537892!3d14.053971194004443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33bd6f241c055555%3A0x49914f9bb26bcb6e!2sPublic%20Employment%20Service%20Office%20(PESO)%20-%20Malvar!5e0!3m2!1sen!2sph!4v1651541543499!5m2!1sen!2sph"
+              frameborder="0"
+              style="border: 0; width: 100%; height: 290px"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        <div
+          class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch"
+          data-aos="fade-left"
+        >
+          <form
+            action="forms/contact.php"
+            method="post"
+            role="form"
+            class="php-email-form"
+          >
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="name">Your Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  id="name"
+                  required
+                />
+              </div>
+              <div class="form-group col-md-6 mt-3 mt-md-0">
+                <label for="name">Your Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  name="email"
+                  id="email"
+                  required
+                />
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <label for="name">Subject</label>
+              <input
+                type="text"
+                class="form-control"
+                name="subject"
+                id="subject"
+                required
+              />
+            </div>
+            <div class="form-group mt-3">
+              <label for="name">Message</label>
+              <textarea
+                class="form-control"
+                name="message"
+                rows="10"
+                required
+              ></textarea>
+            </div>
+            <div class="my-3">
+              <div class="loading">Loading</div>
+              <div class="error-message"></div>
+              <div class="sent-message">
+                Your message has been sent. Thank you!
+              </div>
+            </div>
+            <div class="text-center">
+              <button type="submit">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Contact Section -->
+</main>
+<!-- End #main -->
+
+<script>
+  function changeCard() {
+    var hire = document.getElementById("howToHire");
+    var apply = document.getElementById("howToApply");
+    if (hire.style.display === "none") {
+      hire.style.display = "block";
+      apply.style.display = "none";
+    } else {
+      apply.style.display = "block";
+      hire.style.display = "none";
+    }
+  }
+</script>
 {% endblock %}

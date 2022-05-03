@@ -6,6 +6,7 @@ from .forms import *
 from applicant.forms import *
 from applicant.models import *
 from authentication.models import *
+from .utils import *
 
 def jobpost_list(request):
     """
@@ -96,16 +97,15 @@ def applicants(request):
     template_name = "jobpost/applicants.html"
     obj = JobPost.objects.select_related().filter(posted_by=request.user.id)
 
-    try:
-        for jobs in obj:
-            applicants = ApplicationForm.objects.select_related().filter(jobs_id=jobs.id)
-    except Exception as e:
-        applicants = False
-
-    context = {
-        "applicants" : applicants
-    }
-    return render(request, template_name, context)
+    for jobs in obj:
+        applicants = ApplicationForm.objects.select_related().filter(jobs_id=jobs.id)
+        
+        context = {
+            "applicants" : applicants
+        }
+        return render(request, template_name, context)
+    
+    return render(request, template_name)
 
 
 def view_applicants(request, pk):
@@ -128,10 +128,12 @@ def view_applicants(request, pk):
 
 def approved_applicants(request, pk):
     obj = ApplicationForm.objects.filter(id=pk).update(approved="Approved")
+    send_email(request.user.email, request.user.first_name,  "Approved")
     return redirect("applicants")
 
 def disapproved_applicants(request, pk):
     obj = ApplicationForm.objects.filter(id=pk).update(approved="Disapproved")
+    send_email(request.user.email, request.user.first_name,  "Disapproved")
     return redirect("applicants")
 
 def applied_jobs(request):
@@ -142,3 +144,12 @@ def applied_jobs(request):
         "obj": obj,
     }
     return render(request, template_name, context)
+
+
+def close_job(request, pk):
+    obj = JobPost.objects.filter(id=pk).update(status="Inactive")
+    return redirect("job_posted")
+
+def open_job(request, pk):
+    obj = JobPost.objects.filter(id=pk).update(status="Active")
+    return redirect("job_posted")

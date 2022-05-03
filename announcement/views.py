@@ -15,6 +15,9 @@ def announcement_add(request):
     template_name = "announcements/ann_create.html"
     form = AnnouncementForms(request.POST or None)
     if form.is_valid():
+        form.save(commit=False)
+        form.status = "Active"
+        form.instance.posted_by_id = request.user.id
         form.save()
         return redirect("ann-list")
     context = {
@@ -24,7 +27,7 @@ def announcement_add(request):
 
 def announcement_view(request, pk):
     template_name = "announcements/ann_view.html"
-    announcement = Announcement.objects.filter(id=pk)
+    announcement = Announcement.objects.get(id=pk)
     context = {
          "announcement" : announcement
     }

@@ -13,7 +13,7 @@ class DateInput(forms.DateInput):
 class AdminSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = ["last_name", "first_name", "email", "username"]
+        fields = ["last_name", "first_name", "email"]
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -31,7 +31,7 @@ class EmployerSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ["profile_picture", "last_name", "first_name", "email",
-                  "username", "company_name", "company_address", "business_nature"]
+                  "company_name", "company_address", "business_nature"]
 
     # @transaction.atomic
     # def save(self):
@@ -63,7 +63,7 @@ class ApplicantSignUpForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ["profile_picture", "last_name", "first_name", "email",
-                  "username", "address", "working_exp", "prev_employer", "birthdate", "age"]
+                 "address", "working_exp", "prev_employer", "birthdate", "age"]
 
         widgets = {
             "birthdate": DateInput()
@@ -85,4 +85,8 @@ class ApplicantSignUpForm(UserCreationForm):
 class UpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["last_name", "first_name", "email", "username"]
+        fields = ["last_name", "first_name", "email"]
+
+class LoginForm(forms.Form):
+    email = forms.CharField(max_length=63)
+    password = forms.CharField(max_length=63, widget=forms.PasswordInput)

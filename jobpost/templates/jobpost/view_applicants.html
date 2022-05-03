@@ -1,5 +1,8 @@
-{% extends 'base.html'%} {% load crispy_forms_tags%} {% load static %} {% block body %}
-<div class="row mt-5">
+{% extends 'base.html' %} 
+{% load crispy_forms_tags%} 
+{% load static %} 
+{% block body %}
+<div class="row mt-5" >
   <div class="col-sm-8 col-md-8 col-lg-8">
     <div class="card shadow-sm p-5">
         <div class="text-center">
@@ -41,6 +44,14 @@
                     <a href="{{applicants.resumes.url}}" class="text-decoration-none">
                         View {{applicants.user.last_name}}, {{applicants.user.first_name}}'s Resume'
                     </a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">Additional Info</th>
+                <td>
+                  <p>
+                    {{applicants.additional_info}}
+                  </p>
                 </td>
               </tr>
             </tbody>

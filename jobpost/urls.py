@@ -12,4 +12,6 @@ urlpatterns = [
     path("disapproved-applicants/<int:pk>", disapproved_applicants, name="disapproved_applicants"),
     path("approved-applicants/<int:pk>", approved_applicants, name="approved_applicants"),
     path("applied-jobs", applied_jobs, name="applied_jobs"),
+    path("close-jobs/<int:pk>", close_job, name="close_job"),
+    path("open-jobs/<int:pk>", open_job, name="open_job"),
 ]
