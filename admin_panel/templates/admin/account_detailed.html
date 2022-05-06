@@ -1,0 +1,43 @@
+{% extends 'admin/admin_base.html' %} 
+
+{% block body %}
+
+<div class="container p-4">
+    <a href="{% url 'admin_page' %}" class="text-decoration-none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+      </svg>
+      Back to order list
+    </a>
+    <div class="row">
+      <div class="col-sm col-md-6 col-lg-6">
+        <div class="card shadow rounded p-3">
+            <div class="card-title">
+                Employer Info
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Employer Name: {{employer.user.last_name}}, {{employer.user.first_name}}</li>
+                <li class="list-group-item">Employer Email: {{employer.user.email}}</li>
+                <li class="list-group-item">Company Name: {{employer.company_name}}</li>
+                <li class="list-group-item">Company Address: {{employer.company_address}}</li>
+                <li class="list-group-item">Nature of Business: {{employer.business_nature}}</li>
+                <li class="list-group-item">Email Verified: {% if employer.business_nature == True %} Yes {% else %} No {% endif %}</li>
+                <li class="list-group-item">Status: {% if employer.accepted == True %} Accepted {% else %} Not Accepted {% endif %}</li>
+              </ul>
+            </div>
+        </div>
+      </div>
+      <div class="col-sm col-md-6 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <a href="{% url 'accept_account' employer.id %}" class="btn btn-primary text-decoration-none" >Accept this account</a>
+                    <a href="{% url 'unaccept_account' employer.id %}" class="btn btn-danger text-decoration-none" >Do not accept this account</a>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

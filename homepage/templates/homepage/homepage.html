@@ -1,4 +1,7 @@
-{% extends "base.html" %} {% load static %} {% block body %}
+{% extends "base.html" %} 
+{% load static %}
+{% load crispy_forms_tags %} 
+{% block body %}
 <!-- ======= Hero Section ======= -->
 <section id="hero">
   <div class="container">
@@ -104,7 +107,7 @@
               <a class="nav-link" data-bs-toggle="tab" href="#tab-4">
                 <h4>Hired applicants</h4>
                 <p>
-                  Hire applicants and wait ofr their requirements
+                  Hire applicants and wait for their requirements
                 </p>
               </a>
             </li>
@@ -279,62 +282,24 @@
           class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch"
           data-aos="fade-left"
         >
-          <form
-            action="forms/contact.php"
-            method="post"
-            role="form"
-            class="php-email-form"
-          >
+        <form  method="POST">
+          {% csrf_token %}
             <div class="row">
               <div class="form-group col-md-6">
-                <label for="name">Your Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  class="form-control"
-                  id="name"
-                  required
-                />
+                {{form.name|as_crispy_field}}
               </div>
               <div class="form-group col-md-6 mt-3 mt-md-0">
-                <label for="name">Your Email</label>
-                <input
-                  type="email"
-                  class="form-control"
-                  name="email"
-                  id="email"
-                  required
-                />
+                {{form.email|as_crispy_field}}
               </div>
             </div>
             <div class="form-group mt-3">
-              <label for="name">Subject</label>
-              <input
-                type="text"
-                class="form-control"
-                name="subject"
-                id="subject"
-                required
-              />
+              {{form.subject|as_crispy_field}}
             </div>
             <div class="form-group mt-3">
-              <label for="name">Message</label>
-              <textarea
-                class="form-control"
-                name="message"
-                rows="10"
-                required
-              ></textarea>
-            </div>
-            <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
-              <div class="sent-message">
-                Your message has been sent. Thank you!
-              </div>
+              {{form.message|as_crispy_field}}
             </div>
             <div class="text-center">
-              <button type="submit">Send Message</button>
+              <button type="submit" class="btn btn-primary mt-2">Send Message</button>
             </div>
           </form>
         </div>

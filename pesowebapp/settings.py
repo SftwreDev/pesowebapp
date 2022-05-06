@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'announcement',
     'jobpost',
     'applicant',
+    'admin_panel',
 
     'crispy_forms',
     'django_filters',

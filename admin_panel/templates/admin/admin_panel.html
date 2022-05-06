@@ -1,0 +1,154 @@
+{% extends 'admin/admin_base.html' %} {% block body %}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/v/bs5/dt-1.11.5/datatables.min.css"
+/>
+
+{% comment %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"
+/>
+{% endcomment %}
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css"
+/>
+<div class="container-fluid mt-2 p-4" style="font-size: 12px">
+  <div
+    class="card p-5 shadow-lg p-3 mb-5 bg-white rounded text-decoration-none"
+  >
+    <div class="card" id="ordersActive">
+      <div class="card-header">
+        
+      </div>
+      <div class="card-body">
+        </div>
+        <table
+          class="table table-striped bg-white p-3"
+          id="ordersTable"
+          style="font-size: 11px"
+        >
+          <thead>
+            <tr class="text-center">
+              <th scope="col">#</th>
+              <th scope="col">Employer Name</th>
+              <th scope="col">Employer Email</th>
+              <th scope="col">Company Name</th>
+              <th scope="col">Company Address</th>
+              <th scope="col">Nature of Business</th>
+              <th scope="col">Verified</th>
+              <th scope="col">Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for list in employer %}
+            <tr class="text-center">
+              <th scope="row">{{forloop.counter}}</th>
+              <td>{{list.user.last_name}}, {{list.user.first_name}}</td>
+              <td>{{list.user.email}}</td>
+              <td>{{list.company_name}}</td>
+              <td>{{list.company_address}}</td>
+              <td>{{list.business_nature}}</td>
+              <td>
+                  {% if list.user.is_verified == True %}
+                  <span class="badge bg-primary">Yes</span>
+                  {% else %}
+                  <span class="badge bg-danger">No</span>
+                  {% endif %}
+                </td>
+              <td>
+                  {% if list.accepted == True %}
+                  <span class="badge bg-primary">Accepted</span>
+                  {% else %}
+                  <span class="badge bg-danger">Not Accepted</span>
+                  {% endif %}
+                </td>
+              <td colspan="5">
+                <a
+                  href="{% url 'account_view' list.id %}"
+                  class="bg-success p-1 text-white rounded"
+                  style="font-size: 12px"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="13"
+                    height="13"
+                    fill="currentColor"
+                    class="bi bi-eye"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"
+                    />
+                    <path
+                      d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"
+                    />
+                  </svg>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"
+></script>
+<script
+  type="text/javascript"
+  src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-html5-2.2.2/b-print-2.2.2/fh-3.2.2/r-2.2.9/datatables.min.js"
+></script>
+
+<script>
+  $(document).ready(function () {
+    var table = $("#ordersTable").DataTable({
+      lengthMenu: [
+        [5, 10, 25, 50, -1],
+        [5, 10, 25, 50, "All"],
+      ],
+    });
+
+    table.buttons().container().appendTo($("#printBtn"));
+  });
+
+  $(document).ready(function () {
+    var table = $("#ordersTableHistory").DataTable({
+      lengthMenu: [
+        [5, 10, 25, 50, -1],
+        [5, 10, 25, 50, "All"],
+      ],
+    });
+
+    table.buttons().container().appendTo($("#printBtnHistory"));
+  });
+
+  function changeCard() {
+    var active = document.getElementById("ordersActive");
+    var history = document.getElementById("ordersHistory");
+    if (active.style.display === "none") {
+      active.style.display = "block";
+      history.style.display = "none";
+    } else {
+      history.style.display = "block";
+      active.style.display = "none";
+    }
+  }
+</script>
+
+{% endblock %}

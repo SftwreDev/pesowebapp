@@ -32,6 +32,7 @@ class Employer(BaseModel):
     company_address = models.CharField(max_length=255)
     business_nature = models.CharField(
         max_length=255, help_text="Ex. FastFood, IT, BPO")
+    accepted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.company_name

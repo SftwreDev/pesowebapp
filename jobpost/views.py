@@ -128,12 +128,14 @@ def view_applicants(request, pk):
 
 def approved_applicants(request, pk):
     obj = ApplicationForm.objects.filter(id=pk).update(approved="Approved")
-    send_email(request.user.email, request.user.first_name,  "Approved")
+    applicant = ApplicationForm.objects.get(id=pk)
+    send_email(applicant.user.email, applicant.user.first_name,  "Approved")
     return redirect("applicants")
 
 def disapproved_applicants(request, pk):
     obj = ApplicationForm.objects.filter(id=pk).update(approved="Disapproved")
-    send_email(request.user.email, request.user.first_name,  "Disapproved")
+    applicant = ApplicationForm.objects.get(id=pk)
+    send_email(applicant.user.email, applicant.user.first_name,  "Disapproved")
     return redirect("applicants")
 
 def applied_jobs(request):

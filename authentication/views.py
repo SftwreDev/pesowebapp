@@ -65,7 +65,12 @@ class AdminSignUpView(CreateView):
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        user = form.save()
+        user = form.save(commit=False)
+        user.is_superuser = True
+        user.is_staff = True
+        user.is_verified = True
+        user.role = "superadmin"
+        user.save()
         return redirect('/')
 
 
@@ -150,8 +155,9 @@ def applicant_profile(request):
 
 
 def login_page(request):
+    admin_email = ["admin@gmail.com", "admin2@gmail.com"]
+    admin_password = ["admin123...", "password..."]
     form = LoginForm()
-    message = ''
     if request.method == 'POST':
         form = LoginForm(request.POST or None)
         if form.is_valid():
@@ -160,17 +166,32 @@ def login_page(request):
                 password=form.cleaned_data['password'],
             )
             check_verified = User.objects.filter(email=form.cleaned_data['email'])
+            check_status = Employer.objects.filter(user__email=form.cleaned_data['email'])
             for check in check_verified:
+                for status in check_status:
+                    if status.accepted:
+                        if check.is_verified:
+                            if user is not None:
+                                login(request, user)
+                                return redirect('/')
+                            else:
+                                messages.error(request, 'Invalid email address or password')
+                                return redirect('login')
+                        else:
+                            messages.error(request, 'Email not verified')
+                            return redirect('login')
+
                 if check.is_verified:
                     if user is not None:
                         login(request, user)
-                        return redirect('/')
-                    else:
-                        messages.error(request, 'Invalid email address or password')
-                        return redirect('login')
+                        if user.is_staff and user.role == "superadmin":
+                            return redirect('admin_page')
+                        else:
+                            return redirect('/')
+                    
                 else:
-                    messages.error(request, 'Email not verified')
-                    return redirect('login')
+                        messages.error(request, 'Account not yet accepted')
+                        return redirect('login')
     return render(
         request, 'registration/login.html', context={'form': form})
 

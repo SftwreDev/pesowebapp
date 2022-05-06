@@ -1,0 +1,62 @@
+<!-- ========== header start ========== -->
+<header class="header">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-5 col-md-5 col-6">
+        <div class="header-left d-flex align-items-center">
+          <div class="menu-toggle-btn mr-20">
+            <button id="menu-toggle" class="main-btn primary-btn btn-hover">
+              <i class="lni lni-chevron-left me-2"></i> Menu
+            </button>
+          </div>   
+        </div>
+      </div>
+      <div class="col-lg-7 col-md-7 col-6">
+        <div class="header-right">
+
+         
+          <!-- profile start -->
+          <div class="profile-box ml-15">
+            <button
+              class="dropdown-toggle bg-transparent border-0"
+              type="button"
+              id="profile"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <div class="profile-info">
+                <div class="info">
+                  <h4>{{user.last_name}}, {{user.first_name}}</h4>
+                 
+                </div>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+              </svg>
+            </button>
+            <ul
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="profile"
+            >
+              {% comment %} <li>
+                <a href="#0"> <i class="lni lni-alarm"></i> Notifications </a>
+              </li>
+              <li>
+                <a href="#0"> <i class="lni lni-inbox"></i> Messages </a>
+              </li>
+              <li>
+                <a href="#0"> <i class="lni lni-cog"></i> Settings </a>
+              </li> {% endcomment %}
+              <li>
+                <a href="{% url 'logout' %}"> <i class="lni lni-exit"></i> Sign Out </a>
+              </li>
+            </ul>
+          </div>
+          <!-- profile end -->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- ========== header end ========== -->
