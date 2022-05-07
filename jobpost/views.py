@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .filters import *
@@ -8,6 +9,7 @@ from applicant.models import *
 from authentication.models import *
 from .utils import *
 
+@login_required(login_url="login")
 def jobpost_list(request):
     """
         Function for Job Post list page
@@ -29,6 +31,7 @@ def jobpost_list(request):
     }
     return render(request, template_name, context)
 
+@login_required(login_url="login")
 def jobpost_detail(request, pk):
     template_name = "jobpost/jobpost_detail.html"
     jobs = JobPost.objects.get(id=pk)
@@ -70,7 +73,7 @@ def jobpost_detail(request, pk):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url="login")
 def job_posted(request):
     template_name = "jobpost/jobpost_posted.html"
     obj = JobPost.objects.filter(posted_by=request.user.id).order_by("-created_at")
@@ -92,7 +95,7 @@ def job_posted(request):
     }
     return render(request, template_name, context)
 
-
+@login_required(login_url="login")
 def applicants(request):
     template_name = "jobpost/applicants.html"
     obj = JobPost.objects.select_related().filter(posted_by=request.user.id)
@@ -107,7 +110,7 @@ def applicants(request):
     
     return render(request, template_name)
 
-
+@login_required(login_url="login")
 def view_applicants(request, pk):
     template_name = "jobpost/view_applicants.html"
     applicants = ApplicationForm.objects.get(id=pk)
@@ -126,6 +129,7 @@ def view_applicants(request, pk):
         }
     return render(request, template_name, context)
 
+@login_required(login_url="login")
 def approved_applicants(request, pk):
     obj = ApplicationForm.objects.filter(id=pk).update(approved="Approved")
     applicant = ApplicationForm.objects.get(id=pk)
@@ -148,6 +152,7 @@ def applied_jobs(request):
     return render(request, template_name, context)
 
 
+@login_required(login_url="login")
 def close_job(request, pk):
     obj = JobPost.objects.filter(id=pk).update(status="Inactive")
     return redirect("job_posted")

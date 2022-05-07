@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import *
@@ -180,6 +181,9 @@ def login_page(request):
                         else:
                             messages.error(request, 'Email not verified')
                             return redirect('login')
+                    else:
+                        messages.error(request, 'Account not yet accepted')
+                        return redirect('login')
 
                 if check.is_verified:
                     if user is not None:
