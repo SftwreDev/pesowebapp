@@ -14,4 +14,6 @@ urlpatterns = [
     path("applicant-profile", applicant_profile, name="applicant_profile"),
     path("verify-email/<str:str>", verify_email, name="verify_email"),
     path("email-verification-sent", email_sent, name="email_sent"),
+    path("reset-password-email", reset_password_emai, name="reset_password_emai"),
+    path("reset-password/<str:str>", reset_password, name="reset-password"),
 ]

@@ -44,7 +44,7 @@
           </button>
           {% endif %}
           {% else %}
-          {% if jobs.status == "Active" %}
+          {% if jobs.status == "Active" and jobs.posted_by.email == user.email %}
             <a href="{% url 'close_job'  jobs.id %}" class="text-decoration-none btn btn-danger">Close this job<a>
           {% elif jobs.status == "Inactive" %}
             <a href="{% url 'open_job'  jobs.id %}" class="text-decoration-none btn btn-primary">Open this job<a>

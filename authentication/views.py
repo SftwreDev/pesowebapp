@@ -4,10 +4,12 @@ from django.views.generic import CreateView
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from .models import *
 from .forms import *
 from .utils import *
+from .reset_password import *
 # Create your views here.
 
 
@@ -203,6 +205,32 @@ def logout_user(request):
     logout(request)
     return redirect('login')
 
+def reset_password_emai(request):
+    email = request.POST['email']
+    reset_email = encrypt_email(email)
+    link = f"https://pesowebapp-dqrst.ondigitalocean.app/reset-password/{reset_email}"
+    send_reset_email(email, link)
+    return redirect('login')
+
+def reset_password(request, str):
+    template_name = "registration/password_reset.html"
+    form = ResetPasswordForm(request.POST or None)
+    email = decrypt_email(str)
+    if form.is_valid():
+        password1 = form.cleaned_data['password1']
+        password2 = form.cleaned_data['password2']
+
+        if password1 == password2:
+            user = User.objects.get(email=email)
+            user.set_password(password1)
+            user.save()
+            return redirect('login')
+        else:
+            messages.error(request, "Password doesnt't match")
+            return redirect('reset-password', str)
+    
+    context = {"form" : form}
+    return render(request,template_name, context)
 
 def verify_email(request, str):
     email = decrypt_email(str)

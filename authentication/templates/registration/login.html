@@ -1,69 +1,190 @@
-{% extends "base.html" %} {% load crispy_forms_tags %} {% load static %} 
-{% block body %}
+{% extends "themes.html" %} {% load crispy_forms_tags %} {% load static %} {% block body %}
 
 <div class="row">
-  <div class="col-sm col-md-3 col-lg-3"></div>
-  <div class="col-sm col-md-6 col-lg-6">
-    {% if messages %}
-      {% for message in messages %}
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{message}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  <div class="col-sm col-md-4 col-lg-4"></div>
+  <div class="col-sm col-md-4 col-lg-4">
+    {% if messages %} {% for message in messages %}
+    <div id="alert-2" class="flex p-4 mb-4 bg-red-100 rounded-lg dark:bg-red-200" role="alert">
+      <svg class="flex-shrink-0 w-5 h-5 text-red-700 dark:text-red-800" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+      <div class="ml-3 text-sm font-medium text-red-700 dark:text-red-800">
+        {{ message }}
       </div>
-      {% endfor %}
-    {% endif %}
-    <div class="card shadow p-3 mt-5">
-      <div class="card-body"> 
-        <h3 class="card-title text-center">
-          <img src="{% static "images/auth.png"%}" class="img-fluid" alt="..."
-          style="width: 300px; height: 210px">
-        </h3>
-        <form method="post">
-          {% csrf_token %} {{form|crispy}}
-          <div class="d-grid gap-2 mt-3">
-            <button class="btn btn-primary btn-sm" type="submit">Login</button>
-            <button
-              class="btn btn-outline-primary btn-sm"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-            >
-              Create an account
-            </button>
-          </div>
-        </form>
-      </div>
+      <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex h-8 w-8 dark:bg-red-200 dark:text-red-600 dark:hover:bg-red-300" data-dismiss-target="#alert-2" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      </button>
+    </div>
+    {% endfor %} {% endif %}
+    <div
+      class="p-4 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700"
+    >
+      <form class="space-y-6" method="POST">
+        {% csrf_token %}
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">
+          Sign in to our platform
+        </h5>
+        <div>
+          <label
+            for="email"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >Your email</label
+          >
+          {{form.email}}
+        </div>
+        <div>
+          <label
+            for="password"
+            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+            >Your password</label
+          >
+          {{form.password}}
+        </div>
+        <div class="flex items-start">
+          <div class="flex items-start"></div>
+          <a
+            class="ml-auto text-sm text-blue-700 hover:underline dark:text-blue-500 text-decoration-none"
+            data-modal-toggle="authentication-modal"
+            >Lost Password?</a
+          >
+        </div>
+        <button
+          type="submit"
+          class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Login to your account
+        </button>
+        <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+          Not registered?
+          <a
+            class="text-blue-700 hover:underline dark:text-blue-500 text-decoration-none"
+            data-modal-toggle="popup-modal"
+            >>Create account</a
+          >
+        </div>
+      </form>
     </div>
   </div>
-  <div class="col-sm col-md-3 col-lg-3"></div>
+  <div class="col-sm col-md-4 col-lg-4"></div>
 
   <!-- Modal -->
-  <div
-    class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">What do you want to do?</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-            <div class="d-grid gap-2 col-6 mx-auto">
-                <a class="btn btn-outline-primary" href="{% url 'applicant-register' %}">Find Work</a>
-                <a class="btn btn-outline-primary" href="{% url 'employer-register' %}">Post Job</a>
-            </div>
-        </div>
 
+  <div
+    id="popup-modal"
+    tabindex="-1"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 md:inset-0 h-modal md:h-full"
+  >
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <button
+          type="button"
+          class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+          data-modal-toggle="popup-modal"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
+        <div class="p-6 text-center">
+          <svg
+            class="mx-auto mb-4 w-14 h-14 text-gray-400 dark:text-gray-200"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            What do you want to do?
+          </h3>
+          <a
+            href="{% url 'employer-register' %}"
+            class="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
+          >
+            Find Work
+          </a>
+          <a
+            href="{% url 'employer-register' %}"
+            class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-200 rounded-lg border border-red-200 text-sm font-medium px-5 py-2.5 hover:text-red-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+            >Post Job</a
+          >
+        </div>
       </div>
     </div>
   </div>
+
+  <div
+    id="authentication-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full"
+  >
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <button
+          type="button"
+          class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+          data-modal-toggle="authentication-modal"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
+        <div class="py-6 px-6 lg:px-8">
+          <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white text-center">
+            Please enter your email address to reset your password
+          </h3>
+          <form class="space-y-6" action="/reset-password-email" method="post">
+            {% csrf_token %}
+            <div>
+              <label
+                for="email"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+                >Your email</label
+              >
+              <input
+                type="email"
+                name="email"
+                id="email"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="name@email.com"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Reset my password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
 </div>
-{% endblock %}

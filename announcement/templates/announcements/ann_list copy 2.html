@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block body %}
+<style>
+  #announcementCard:hover {
+      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  }
+</style>
+<div class="card p-2 mt-3">
+    <div class="card-body">
+        <div class="row">
+          <div class="col-8">
+            {% if user.role == 'admin' or user.role == 'employer' %}
+            <a
+              href="{% url 'ann-add' %}"
+              class="btn btn-primary w-28"
+              style="font-size: 15px"
+            >
+              Post Announcement
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"
+                />
+              </svg>
+            </a>
+            {% endif %}
+        </div>
+        {% for list in announcement %}
+        <div class="card mt-5 mb-2" onclick="viewAnnouncement({{list.id}})"  id="announcementCard">
+            <div class="card-title mt-3">
+                <h3>{{ list.title }}</h3>
+                <small>Posted by : {{ list.posted_by }}</small>
+                <small>Date Posted : {{ list.created_at}}</small>
+            </div>
+            <hr>
+            <div class="card-body">
+              {{ list.content|truncatechars:20 }} <br>
+              <small class="text-muted">Click card to view</small>
+            </div>
+            
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  function viewAnnouncement(id) {
+      var url = "/announcement-view/" + id
+  
+      window.location.href = url;
+  }
+</script>
+{% endblock %}

@@ -115,7 +115,7 @@ def view_applicants(request, pk):
     template_name = "jobpost/view_applicants.html"
     applicants = ApplicationForm.objects.get(id=pk)
     user  = Applicant.objects.get(user_id=applicants.user_id)
-    requirements = ApplicantRequirement.objects.filter(user_id=applicants.user_id)
+    requirements = ApplicantRequirement.objects.filter(user_id=applicants.user_id, jobs__posted_by__email=request.user.email)
     try:
         check_file = ApplicantRequirement.objects.filter(id=pk)
         available_files = True

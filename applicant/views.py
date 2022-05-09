@@ -33,7 +33,7 @@ def proceed_next_step(request, pk):
     else:
         applicant_forms = ApplicantRequirementsForm(request.POST or None, request.FILES or None)
     
-    requirements = ApplicantRequirement.objects.filter(user_id=request.user.id)
+    requirements = ApplicantRequirement.objects.filter(user_id=request.user.id, jobs_id=jobs.id)
     check_file = ApplicantRequirement.objects.filter(jobs_id=pk).count()
 
     if check_file == 0:

@@ -1,0 +1,69 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% load static %} 
+{% block body %}
+
+<div class="row">
+  <div class="col-sm col-md-3 col-lg-3"></div>
+  <div class="col-sm col-md-6 col-lg-6">
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
+    <div class="card shadow p-3 mt-5">
+      <div class="card-body"> 
+        <h3 class="card-title text-center">
+          <img src="{% static "images/auth.png"%}" class="img-fluid" alt="..."
+          style="width: 300px; height: 210px">
+        </h3>
+        <form method="post">
+          {% csrf_token %} {{form|crispy}}
+          <div class="d-grid gap-2 mt-3">
+            <button class="btn btn-primary btn-sm" type="submit">Login</button>
+            <button
+              class="btn btn-outline-primary btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Create an account
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm col-md-3 col-lg-3"></div>
+
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">What do you want to do?</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <a class="btn btn-outline-primary" href="{% url 'applicant-register' %}">Find Work</a>
+                <a class="btn btn-outline-primary" href="{% url 'employer-register' %}">Post Job</a>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

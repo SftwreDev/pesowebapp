@@ -87,6 +87,16 @@ class UpdateForm(forms.ModelForm):
         model = User
         fields = ["last_name", "first_name", "email"]
 
+
 class LoginForm(forms.Form):
-    email = forms.CharField(max_length=63)
-    password = forms.CharField(max_length=63, widget=forms.PasswordInput)
+    email = forms.CharField(max_length=63, widget=forms.TextInput(attrs={"placeholder" :  "name@email.com","class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"}))
+    password = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={"placeholder" :  "••••••••","class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"}))
+
+
+class ResetForm(forms.Form):
+    email = forms.CharField(max_length=63, widget=forms.TextInput(attrs={"placeholder" :  "name@email.com","class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"}))
+
+
+class ResetPasswordForm(forms.Form):
+    password1 = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={"placeholder" :  "••••••••","class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"}))
+    password2 = forms.CharField(max_length=63, widget=forms.PasswordInput(attrs={"placeholder" :  "••••••••","class":"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"}))
