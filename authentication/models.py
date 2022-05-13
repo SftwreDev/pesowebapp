@@ -48,6 +48,7 @@ class Applicant(BaseModel):
     prev_employer = models.CharField(max_length=255, blank=True, null=True)
     birthdate = models.DateField(auto_now_add=False)
     age = models.IntegerField()
+    contact = models.CharField(max_length=255)
 
     def __str__(self):
         return f"{self.user.last_name}, {self.user.first_name}"

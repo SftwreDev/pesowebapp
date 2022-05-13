@@ -133,7 +133,8 @@ class ApplicantSignUpView(CreateView):
             prev_employer=form.cleaned_data['prev_employer'],
             birthdate=form.cleaned_data['birthdate'],
             age=form.cleaned_data['age'],
-            status = "Active"
+            status = "Active",
+            contact=form.cleaned_data['contact']
             )
         return redirect('email_sent')
 

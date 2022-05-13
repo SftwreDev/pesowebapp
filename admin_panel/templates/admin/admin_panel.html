@@ -24,13 +24,16 @@
   >
     <div class="card" id="ordersActive">
       <div class="card-header">
-        
+        <div
+            id="printBtn"
+            style="float: right; font-size: 10px; margin-bottom: 5px"
+          ></div>
       </div>
       <div class="card-body">
         </div>
         <table
           class="table table-striped bg-white p-3"
-          id="ordersTable"
+          id="employersTable"
           style="font-size: 11px"
         >
           <thead>
@@ -117,38 +120,64 @@
 
 <script>
   $(document).ready(function () {
-    var table = $("#ordersTable").DataTable({
-      lengthMenu: [
-        [5, 10, 25, 50, -1],
-        [5, 10, 25, 50, "All"],
+    var table = $("#employersTable").DataTable({
+        lengthMenu: [
+          [5, 10, 25, 50, -1],
+          [5, 10, 25, 50, "All"],
+        ],
+        dom: "Blfrtip",
+      buttons: [
+        {
+          extend: "excelHtml5",
+          text: '<i class="fas fa-file-excel"></i> Excel',
+          titleAttr: "Excel",
+          exportOptions: {
+            columns: [0, 1, 2, 5, 6, 7],
+          },
+          filename: function () {
+            var today = new Date();
+            var date =
+              today.getFullYear() +
+              "-" +
+              (today.getMonth() + 1) +
+              "-" +
+              today.getDate();
+            return "stsweb-report-" + date;
+          },
+        },
+        {
+          extend: "print",
+          text: '<i class="fas fa-print"></i> Print',
+          titleAttr: "Print",
+          customize: function (win) {
+            $(win.document.body).css("font-size", "12px");
+
+            $(win.document.body)
+              .find("table")
+              .addClass("compact")
+              .css("font-size", "12px");
+          },
+          exportOptions: {
+            columns: [0, 1, 2, 5, 6, 7],
+          },
+          filename: function () {
+            var today = new Date();
+            var date =
+              today.getFullYear() +
+              "-" +
+              (today.getMonth() + 1) +
+              "-" +
+              today.getDate();
+            return "stsweb-report-" + date;
+          },
+        },
       ],
     });
 
     table.buttons().container().appendTo($("#printBtn"));
   });
 
-  $(document).ready(function () {
-    var table = $("#ordersTableHistory").DataTable({
-      lengthMenu: [
-        [5, 10, 25, 50, -1],
-        [5, 10, 25, 50, "All"],
-      ],
-    });
-
-    table.buttons().container().appendTo($("#printBtnHistory"));
-  });
-
-  function changeCard() {
-    var active = document.getElementById("ordersActive");
-    var history = document.getElementById("ordersHistory");
-    if (active.style.display === "none") {
-      active.style.display = "block";
-      history.style.display = "none";
-    } else {
-      history.style.display = "block";
-      active.style.display = "none";
-    }
-  }
+  
 </script>
 
 {% endblock %}

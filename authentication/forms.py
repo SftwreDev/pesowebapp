@@ -59,11 +59,12 @@ class ApplicantSignUpForm(UserCreationForm):
         max_length=255, label="Previous Employer (if you have working experience)", initial="N/A")
     birthdate = forms.CharField(max_length=255, widget=DateInput())
     age = forms.CharField(max_length=255)
+    contact = forms.CharField(max_length=255)
 
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ["profile_picture", "last_name", "first_name", "email",
-                 "address", "working_exp", "prev_employer", "birthdate", "age"]
+                 "address", "working_exp", "prev_employer", "birthdate", "age", "contact"]
 
         widgets = {
             "birthdate": DateInput()
